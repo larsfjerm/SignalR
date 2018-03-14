@@ -84,7 +84,7 @@ namespace Microsoft.AspNetCore.Sockets.Client
             try
             {
                 response.EnsureSuccessStatusCode();
-                tcs.SetResult(null);
+                tcs.TrySetResult(null);
             }
             catch (Exception ex)
             {

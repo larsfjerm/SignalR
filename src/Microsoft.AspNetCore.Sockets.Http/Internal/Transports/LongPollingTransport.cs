@@ -34,8 +34,9 @@ namespace Microsoft.AspNetCore.Sockets.Internal.Transports
             {
                 if (_isFirstRequest)
                 {
-                        await context.Response.Body.FlushAsync();
+                    await context.Response.Body.FlushAsync();
                 }
+
                 var result = await _application.ReadAsync(token);
                 var buffer = result.Buffer;
 

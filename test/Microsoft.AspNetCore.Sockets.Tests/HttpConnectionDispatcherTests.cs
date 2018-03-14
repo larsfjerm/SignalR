@@ -499,7 +499,6 @@ namespace Microsoft.AspNetCore.Sockets.Tests
         {
             using (StartLog(out var loggerFactory, LogLevel.Debug))
             {
-                //while (!System.Diagnostics.Debugger.IsAttached) { }
                 var manager = CreateConnectionManager(loggerFactory);
                 var connection = manager.CreateConnection();
 
@@ -757,8 +756,6 @@ namespace Microsoft.AspNetCore.Sockets.Tests
         {
             using (StartLog(out var loggerFactory, LogLevel.Debug))
             {
-                //while (!System.Diagnostics.Debugger.IsAttached) { }
-
                 var manager = CreateConnectionManager(loggerFactory);
                 var connection = manager.CreateConnection();
 

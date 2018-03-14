@@ -41,7 +41,7 @@ namespace Microsoft.AspNetCore.SignalR.Client.Tests
                 {
                     await tcs.Task;
                 }
-                return ResponseUtils.CreateResponse(HttpStatusCode.NoContent);
+                return ResponseUtils.CreateResponse(HttpStatusCode.OK);
             });
 
             return testHttpMessageHandler;

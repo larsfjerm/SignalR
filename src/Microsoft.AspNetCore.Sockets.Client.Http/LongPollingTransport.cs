@@ -22,6 +22,7 @@ namespace Microsoft.AspNetCore.Sockets.Client
         private IDuplexPipe _application;
         private Task _sender;
         private Task _poller;
+        private HttpResponseMessage _response;
 
         private readonly CancellationTokenSource _transportCts = new CancellationTokenSource();
 
@@ -78,6 +79,7 @@ namespace Microsoft.AspNetCore.Sockets.Client
 
             try
             {
+                _response?.Dispose();
                 await Running;
             }
             catch
@@ -96,11 +98,9 @@ namespace Microsoft.AspNetCore.Sockets.Client
                     var request = new HttpRequestMessage(HttpMethod.Get, pollUrl);
                     SendUtils.PrepareHttpRequest(request, _httpOptions);
 
-                    HttpResponseMessage response;
-
                     try
                     {
-                        response = await _httpClient.SendAsync(request, cancellationToken);
+                        _response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
                     }
                     catch (OperationCanceledException)
                     {
@@ -110,10 +110,10 @@ namespace Microsoft.AspNetCore.Sockets.Client
                         continue;
                     }
 
-                    response.EnsureSuccessStatusCode();
-                    startTcs.SetResult(null);
+                    _response.EnsureSuccessStatusCode();
+                    startTcs.TrySetResult(null);
 
-                    if (response.StatusCode == HttpStatusCode.NoContent || cancellationToken.IsCancellationRequested)
+                    if (_response.StatusCode == HttpStatusCode.NoContent || cancellationToken.IsCancellationRequested)
                     {
                         Log.ClosingConnection(_logger);
 
@@ -125,14 +125,15 @@ namespace Microsoft.AspNetCore.Sockets.Client
                         Log.ReceivedMessages(_logger);
 
                         var stream = new PipeWriterStream(_application.Output);
-                        await response.Content.CopyToAsync(stream);
+                        await _response.Content.CopyToAsync(stream);
                         await _application.Output.FlushAsync();
                     }
                 }
             }
-            catch (OperationCanceledException)
+            catch (OperationCanceledException ex)
             {
                 // transport is being closed
+                startTcs.TrySetException(ex);
                 Log.ReceiveCanceled(_logger);
             }
             catch (Exception ex)
