@@ -31,7 +31,6 @@
     <MicrosoftAspNetCoreTestHostPackageVersion>2.1.0-preview2-30319</MicrosoftAspNetCoreTestHostPackageVersion>
     <MicrosoftAspNetCoreTestingPackageVersion>2.1.0-preview2-30319</MicrosoftAspNetCoreTestingPackageVersion>
     <MicrosoftAspNetCoreWebSocketsPackageVersion>2.1.0-preview2-30319</MicrosoftAspNetCoreWebSocketsPackageVersion>
-    <MicrosoftAspNetCoreWebUtilitiesPackageVersion>2.1.0-preview2-30301</MicrosoftAspNetCoreWebUtilitiesPackageVersion>
     <MicrosoftCSharpPackageVersion>4.5.0-preview2-26308-02</MicrosoftCSharpPackageVersion>
     <MicrosoftEntityFrameworkCoreDesignPackageVersion>2.1.0-preview2-30319</MicrosoftEntityFrameworkCoreDesignPackageVersion>
     <MicrosoftEntityFrameworkCoreSqlServerPackageVersion>2.1.0-preview2-30319</MicrosoftEntityFrameworkCoreSqlServerPackageVersion>
@@ -52,6 +51,7 @@
     <MicrosoftExtensionsObjectMethodExecutorSourcesPackageVersion>2.1.0-preview2-30319</MicrosoftExtensionsObjectMethodExecutorSourcesPackageVersion>
     <MicrosoftExtensionsOptionsPackageVersion>2.1.0-preview2-30319</MicrosoftExtensionsOptionsPackageVersion>
     <MicrosoftExtensionsSecurityHelperSourcesPackageVersion>2.1.0-preview2-30319</MicrosoftExtensionsSecurityHelperSourcesPackageVersion>
+    <MicrosoftExtensionsWebEncodersSourcesPackageVersion>2.1.0-preview2-30319</MicrosoftExtensionsWebEncodersSourcesPackageVersion>
     <MicrosoftExtensionsValueStopwatchSourcesPackageVersion>2.1.0-preview2-30319</MicrosoftExtensionsValueStopwatchSourcesPackageVersion>
     <MicrosoftNETCoreApp20PackageVersion>2.0.0</MicrosoftNETCoreApp20PackageVersion>
     <MicrosoftNETCoreApp21PackageVersion>2.1.0-preview2-26308-01</MicrosoftNETCoreApp21PackageVersion>
