@@ -17,7 +17,6 @@ namespace Microsoft.AspNetCore.SignalR.Client.Tests
             [Fact]
             public async Task CanSendData()
             {
-                //while (!System.Diagnostics.Debugger.IsAttached) { }
                 var data = new byte[] { 1, 1, 2, 3, 5, 8 };
 
                 var testHttpHandler = TestHttpMessageHandler.CreateDefault(handleSend: false);
@@ -94,7 +93,6 @@ namespace Microsoft.AspNetCore.SignalR.Client.Tests
             [Fact]
             public async Task ExceptionOnSendAsyncClosesWithError()
             {
-                //while (!System.Diagnostics.Debugger.IsAttached) { }
                 var testHttpHandler = TestHttpMessageHandler.CreateDefault(handleSend:false);
 
                 testHttpHandler.OnSocketSend((buf, cancellationToken) =>

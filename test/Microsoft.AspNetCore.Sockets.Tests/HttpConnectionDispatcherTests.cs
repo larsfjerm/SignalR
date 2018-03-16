@@ -622,7 +622,6 @@ namespace Microsoft.AspNetCore.Sockets.Tests
         [Fact]
         public async Task RequestToActiveConnectionIdKillsPreviousConnectionLongPolling()
         {
-            while (!System.Diagnostics.Debugger.IsAttached) { }
             using (StartLog(out var loggerFactory, LogLevel.Debug))
             {
                 var manager = CreateConnectionManager(loggerFactory);
@@ -641,13 +640,13 @@ namespace Microsoft.AspNetCore.Sockets.Tests
                 var options = new HttpSocketOptions();
                 _ = dispatcher.ExecuteAsync(context1, options, app);
 
+                Assert.Equal(StatusCodes.Status200OK, context1.Response.StatusCode);
+
                 var request1 = dispatcher.ExecuteAsync(context1, options, app);
-                _ = dispatcher.ExecuteAsync(context2, options, app);
                 var request2 = dispatcher.ExecuteAsync(context2, options, app);
                 await request1;
 
                 Assert.Equal(StatusCodes.Status204NoContent, context1.Response.StatusCode);
-                Assert.Equal(DefaultConnectionContext.ConnectionStatus.Active, connection.Status);
 
                 Assert.False(request2.IsCompleted);
 

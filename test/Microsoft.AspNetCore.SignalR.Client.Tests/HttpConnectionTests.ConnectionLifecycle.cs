@@ -174,7 +174,6 @@ namespace Microsoft.AspNetCore.SignalR.Client.Tests
             [Fact]
             public async Task CanStartStoppedConnection()
             {
-                //while (!System.Diagnostics.Debugger.IsAttached) { }
                 using (StartLog(out var loggerFactory))
                 {
                     await WithConnectionAsync(
@@ -310,7 +309,6 @@ namespace Microsoft.AspNetCore.SignalR.Client.Tests
             [Fact]
             public async Task CanDisposeStoppedConnection()
             {
-                //while (!System.Diagnostics.Debugger.IsAttached) { }
                 using (StartLog(out var loggerFactory))
                 {
                     await WithConnectionAsync(
