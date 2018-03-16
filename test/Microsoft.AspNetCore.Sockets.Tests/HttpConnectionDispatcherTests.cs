@@ -622,6 +622,7 @@ namespace Microsoft.AspNetCore.Sockets.Tests
         [Fact]
         public async Task RequestToActiveConnectionIdKillsPreviousConnectionLongPolling()
         {
+            while (!System.Diagnostics.Debugger.IsAttached) { }
             using (StartLog(out var loggerFactory, LogLevel.Debug))
             {
                 var manager = CreateConnectionManager(loggerFactory);
@@ -638,9 +639,11 @@ namespace Microsoft.AspNetCore.Sockets.Tests
                 builder.UseEndPoint<TestEndPoint>();
                 var app = builder.Build();
                 var options = new HttpSocketOptions();
-                var request1 = dispatcher.ExecuteAsync(context1, options, app);
-                var request2 = dispatcher.ExecuteAsync(context2, options, app);
+                _ = dispatcher.ExecuteAsync(context1, options, app);
 
+                var request1 = dispatcher.ExecuteAsync(context1, options, app);
+                _ = dispatcher.ExecuteAsync(context2, options, app);
+                var request2 = dispatcher.ExecuteAsync(context2, options, app);
                 await request1;
 
                 Assert.Equal(StatusCodes.Status204NoContent, context1.Response.StatusCode);
@@ -776,7 +779,7 @@ namespace Microsoft.AspNetCore.Sockets.Tests
                 // Write to the application
                 await connection.Application.Output.WriteAsync(buffer);
 
-                // The fir
+                // The first request will produce a response with a status code of 200.
                 Assert.Equal(StatusCodes.Status200OK, context.Response.StatusCode);
 
                 task = dispatcher.ExecuteAsync(context, options, app);
@@ -824,7 +827,7 @@ namespace Microsoft.AspNetCore.Sockets.Tests
                 await task2.OrTimeout();
 
                 // Verify the results
-                Assert.Equal(StatusCodes.Status204NoContent, context1.Response.StatusCode);
+                Assert.Equal(StatusCodes.Status200OK, context1.Response.StatusCode);
                 Assert.Equal(string.Empty, GetContentAsString(context1.Response.Body));
                 Assert.Equal(StatusCodes.Status200OK, context2.Response.StatusCode);
                 Assert.Equal("Hello, World", GetContentAsString(context2.Response.Body));

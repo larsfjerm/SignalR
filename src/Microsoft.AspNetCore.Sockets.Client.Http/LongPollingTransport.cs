@@ -125,7 +125,11 @@ namespace Microsoft.AspNetCore.Sockets.Client
                         Log.ReceivedMessages(_logger);
 
                         var stream = new PipeWriterStream(_application.Output);
-                        await _response.Content.CopyToAsync(stream);
+                        try
+                        {
+                            await _response.Content.CopyToAsync(stream);
+                        }
+                        catch { /*First request*/};
                         await _application.Output.FlushAsync();
                     }
                 }

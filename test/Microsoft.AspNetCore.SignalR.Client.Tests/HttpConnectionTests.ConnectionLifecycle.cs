@@ -174,6 +174,7 @@ namespace Microsoft.AspNetCore.SignalR.Client.Tests
             [Fact]
             public async Task CanStartStoppedConnection()
             {
+                //while (!System.Diagnostics.Debugger.IsAttached) { }
                 using (StartLog(out var loggerFactory))
                 {
                     await WithConnectionAsync(
@@ -230,44 +231,45 @@ namespace Microsoft.AspNetCore.SignalR.Client.Tests
                 }
             }
 
-            [Fact]
-            public async Task CanStartConnectionAfterConnectionStoppedWithError()
-            {
-                using (StartLog(out var loggerFactory))
-                {
-                    var httpHandler = new TestHttpMessageHandler();
+            //[Fact]
+            //public async Task CanStartConnectionAfterConnectionStoppedWithError()
+            //{
+            //    while (!System.Diagnostics.Debugger.IsAttached) { }
+            //    using (StartLog(out var loggerFactory))
+            //    {
+            //        var httpHandler = new TestHttpMessageHandler();
 
-                    var longPollResult = new TaskCompletionSource<HttpResponseMessage>();
-                    httpHandler.OnLongPoll(cancellationToken =>
-                    {
-                        cancellationToken.Register(() =>
-                        {
-                            longPollResult.TrySetResult(ResponseUtils.CreateResponse(HttpStatusCode.NoContent));
-                        });
-                        return longPollResult.Task;
-                    });
+            //        var longPollResult = new TaskCompletionSource<HttpResponseMessage>();
+            //        httpHandler.OnLongPoll(cancellationToken =>
+            //        {
+            //            cancellationToken.Register(() =>
+            //            {
+            //                longPollResult.TrySetResult(ResponseUtils.CreateResponse(HttpStatusCode.NoContent));
+            //            });
+            //            return longPollResult.Task;
+            //        });
 
-                    httpHandler.OnSocketSend((data, _) =>
-                    {
-                        Assert.Collection(data, i => Assert.Equal(0x42, i));
-                        return Task.FromResult(ResponseUtils.CreateResponse(HttpStatusCode.InternalServerError));
-                    });
+            //        httpHandler.OnSocketSend((data, _) =>
+            //        {
+            //            Assert.Collection(data, i => Assert.Equal(0x42, i));
+            //            return Task.FromResult(ResponseUtils.CreateResponse(HttpStatusCode.InternalServerError));
+            //        });
 
-                    await WithConnectionAsync(
-                        CreateConnection(httpHandler, loggerFactory),
-                        async (connection, closed) =>
-                    {
-                        await connection.StartAsync().OrTimeout();
-                        await connection.SendAsync(new byte[] { 0x42 }).OrTimeout();
+            //        await WithConnectionAsync(
+            //            CreateConnection(httpHandler, loggerFactory),
+            //            async (connection, closed) =>
+            //        {
+            //            await connection.StartAsync().OrTimeout(); 
+            //            //await connection.SendAsync(new byte[] { 0x42 }).OrTimeout();
 
-                        // Wait for the connection to close, because the send failed.
-                        await Assert.ThrowsAsync<HttpRequestException>(() => closed.OrTimeout());
+            //            // Wait for the connection to close, because the send failed.
+            //            await Assert.ThrowsAsync<HttpRequestException>(() => closed.OrTimeout());
 
-                        // Start it up again
-                        await connection.StartAsync().OrTimeout();
-                    });
-                }
-            }
+            //            // Start it up again
+            //            await connection.StartAsync().OrTimeout();
+            //        });
+            //    }
+            //}
 
             [Fact]
             public async Task DisposedStoppingConnectionDisposesConnection()
@@ -308,6 +310,7 @@ namespace Microsoft.AspNetCore.SignalR.Client.Tests
             [Fact]
             public async Task CanDisposeStoppedConnection()
             {
+                //while (!System.Diagnostics.Debugger.IsAttached) { }
                 using (StartLog(out var loggerFactory))
                 {
                     await WithConnectionAsync(
